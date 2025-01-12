@@ -1,0 +1,12 @@
+python-docx
+transformers
+sentence-transformers
+qdrant-client
+langchain
+langchain-community
+langchain-qdrant
+fastembed
+langchain-google-genai
+semantic-router
+neo4j
+roman

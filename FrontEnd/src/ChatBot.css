@@ -1,0 +1,112 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Container chính của chatbot */
+.chatbot-container {
+  width: 66.66%; /* Chiếm 2/3 màn hình */
+  max-width: 800px; /* Giới hạn chiều rộng tối đa */
+  height: 80vh; /* Chiếm 80% chiều cao màn hình */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0 auto; /* Căn giữa màn hình */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Header của chatbot */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+}
+
+.chat-header h2 {
+  font-size: 18px;
+}
+
+.new-chat-btn {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.new-chat-btn:hover {
+  background-color: #004080;
+}
+
+/* Cửa sổ hiển thị tin nhắn */
+.chat-window {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column; /* Đảm bảo các tin nhắn hiển thị theo chiều dọc */
+}
+
+/* Tin nhắn của người dùng và chatbot */
+.message {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 80%;
+  word-wrap: break-word; /* Đảm bảo chữ không tràn ra ngoài */
+  display: inline-block; /* Để ô tin nhắn co giãn theo nội dung */
+}
+
+.message.user {
+  background-color: #007bff;
+  color: white;
+  margin-left: auto;
+}
+
+.message.bot {
+  background-color: #e1e1e1;
+  color: #333;
+  margin-right: auto;
+}
+
+/* Thanh nhập tin nhắn */
+.input-container {
+  display: flex;
+  padding: 10px;
+  background-color: #f1f1f1;
+}
+
+.input-container input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.input-container button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-container button:hover {
+  background-color: #0056b3;
+}
