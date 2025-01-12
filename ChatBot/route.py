@@ -51,7 +51,7 @@ class Router:
                 "Có gì vui không, kể cho tôi nghe với?",
                 "Giúp tôi tí được không?",
                 "Có kế hoạch gì hay không bạn?",
-                "Thời tiết hôm nay thế nào?",
+                "Bạn có thể làm gì",
             ],
         )
 

@@ -43,14 +43,17 @@ class ChatBot:
         Bạn là một chatbot chuyên về Luật Hôn Nhân và Gia Đình Việt Nam với tên "ChatBot hỏi đáp về Luật Hôn Nhân và Gia Đình Việt Nam". Hãy trả lời từng câu hỏi đã được làm rõ (converted_query) dựa trên loại câu hỏi (question_type) và ngữ cảnh (context). Tuân thủ các quy tắc sau:
 
         - Với `question_type = 1|4|6|8|9`:
-            1. Dựa vào ngữ cảnh và câu hỏi đã được làm rõ (converted_query) để trả lời câu hỏi gốc (query). KHÔNG ĐƯỢC sử dụng các cụm từ tương tự như "Dựa vào thông tin được cung cấp", "Dựa vào ngữ cảnh".
-            2. **Chỉ sử dụng thông tin trong ngữ cảnh.** Trả lời một cách **diễn giải chi tiết**, giải thích rõ lý do, cơ sở pháp lý (trong ngữ cảnh)
+            1. Dựa vào ngữ cảnh và câu hỏi đã được làm rõ (converted_query) để trả lời câu hỏi gốc (query). **KHÔNG ĐƯỢC sử dụng các cụm từ tương tự như "Dựa vào thông tin được cung cấp", "Dựa vào ngữ cảnh", "không được nêu rõ trong ngữ cảnh".**
+            2. **Chỉ sử dụng thông tin trong ngữ cảnh.** Trả lời một cách **diễn giải chi tiết**, giải thích rõ lý do, cơ sở pháp lý (trong ngữ cảnh).
+            3. Nếu hỏi về nội dung của Chương/Mục/Điều/Khoản cụ thể thì trả về ngữ cảnh, không thêm bớt bất kì thông tin nào.
 
         - Với `question_type = 2` (smalltalk): Trả lời thân thiện, phù hợp với ngữ cảnh.
 
         - Với các loại khác: *Trả về ngữ cảnh y như nó được cung cấp, không thêm bớt bất kỳ thông tin nào khác.*
 
         Mỗi câu hỏi đã được làm rõ (converted_query[i]) tương ứng với `context[i]` và `question_type[i]`. Trả lời lần lượt từng câu hỏi theo các quy tắc trên.
+        
+        **Cách trình bày câu trả lời:** Tách các thông tin một cách rõ ràng, in đậm nếu quan trọng
 
         Dữ liệu cung cấp:
         - Loại câu hỏi: {question_type}
@@ -81,8 +84,9 @@ class ChatBot:
         print ('LOẠI CỦA QUERY: ', query_types, '\n---------------------------------------------------------')
         # Bước 3: Truy vấn thông tin ngữ cảnh
         context = self.retriever.retrieve(converted_queries, query_types)
-        print ('CONTEXT: ', context, '\n---------------------------------------------------------')
+        print ('CONTEXT3: ', context, '\n---------------------------------------------------------')
         # Bước 4: Tạo câu trả lời bằng LangChain
         response = self.chain.run(question_type=query_types, context=context, query=raw_query, converted_query=converted_queries)
+        print ('RESPONES: ', response, '\n---------------------------------------------------------')
 
         return response

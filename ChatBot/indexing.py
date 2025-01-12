@@ -38,7 +38,7 @@ with open('./data/new_data.json', 'r', encoding='utf-8') as f:
 documents = save_to_vector_database(data)
 
 # Tạo embedding cho các Document bằng SentenceTransformer
-model_name = "dangvantuan/vietnamese-embedding"
+model_name = 'bkai-foundation-models/vietnamese-bi-encoder'
 embedding_model = HuggingFaceEmbeddings(model_name=model_name)
 sparse_embeddings = FastEmbedSparse(model_name="Qdrant/BM25")
 
@@ -51,7 +51,7 @@ vectorstore = QdrantVectorStore.from_documents(
                 retrieval_mode=RetrievalMode.HYBRID,
                 url=os.getenv("QDRANT_URL"), 
                 api_key=os.getenv("QDRANT_API_KEY"),
-                collection_name="LAWDATA",
+                collection_name="LAW",
                 distance=models.Distance.COSINE
             )
 

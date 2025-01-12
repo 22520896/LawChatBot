@@ -14,13 +14,11 @@ class Retriever:
     def __init__(self, embedding_model, sparse_embedding, rerank_model="itdainb/PhoRanker"):
         # Tải các biến môi trường từ file .env
         load_dotenv()
-        # Qdrant
-        collection_name = os.getenv('QDRANT_COLLECTION_NAME')
-        url = os.getenv('QDRANT_URL')
-        api_key = os.getenv('QDRANT_API_KEY')
-
-        uri = os.getenv('NEO4J_URI')    
-        auth = (os.getenv('NEO4J_USERNAME'), os.getenv('NEO4J_PASS'))
+        collection_name = "LAW"
+        url ="https://c1e67a53-62f6-4464-b5ed-086b3c298e23.europe-west3-0.gcp.cloud.qdrant.io"
+        api_key = "-s29x9W2DpfpvmsR-1bA_CbpKrtp__xVJ2YKUmPgcf6n7MQ95o6fBQ"
+        uri = "neo4j+s://615fc5a0.databases.neo4j.io"
+        auth = ("neo4j", "na-qdn-vkgFz_gxp3wchu_w-KLVafhGNebbm1X20An0")
 
         # Khởi tạo kho lưu trữ vector
         self.vector_store = QdrantVectorStore.from_existing_collection(
@@ -29,7 +27,7 @@ class Retriever:
             url=url,
             api_key=api_key,
             sparse_embedding=sparse_embedding,
-            retrieval_mode=RetrievalMode.DENSE,
+            retrieval_mode=RetrievalMode.HYBRID,
         )
 
         self.retriever = self.vector_store.as_retriever()
@@ -116,7 +114,7 @@ class Retriever:
             temp2 = self.retriever.get_relevant_documents(query="", filter=filter_condition2)
             res[refer_article]['content'].update([d.page_content for d in temp2])
             res[refer_article]['title'] = temp2[0].metadata['art_title']
-
+        print ('res: ', res)
         context = ""
         for key, value in res.items():
             context += f"{key}: {value['title']}\n"

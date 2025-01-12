@@ -7,17 +7,17 @@
 
 /* Container chính của chatbot */
 .chatbot-container {
-  width: 66.66%; /* Chiếm 2/3 màn hình */
-  max-width: 800px; /* Giới hạn chiều rộng tối đa */
-  height: 80vh; /* Chiếm 80% chiều cao màn hình */
+  width: 95%;
+  max-width: 1200px;
+  height: 95vh;
   border: 1px solid #ccc;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: "Times New Roman", serif;
   background-color: #f9f9f9;
-  margin: 0 auto; /* Căn giữa màn hình */
+  margin: 0 auto;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -27,28 +27,34 @@
 /* Header của chatbot */
 .chat-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
+  padding: 14px;
+  background-color: #e083ff;
+  color: rgb(0, 0, 0);
+  font-size: 15px;
+  font-weight: bold;
 }
 
-.chat-header h2 {
-  font-size: 18px;
-}
-
+/* Nút New Chat */
 .new-chat-btn {
-  background-color: #0056b3;
-  color: white;
+  position: absolute;
+  right: 20px;
+  background-color: #640065;
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  width: 40px; /* Đặt kích thước cố định */
+  height: 40px; /* Đặt kích thước cố định */
+  border-radius: 50%; /* Làm tròn nút */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.3s ease;
 }
 
 .new-chat-btn:hover {
-  background-color: #004080;
+  background-color: #c000c7; /* Hiệu ứng hover */
 }
 
 /* Cửa sổ hiển thị tin nhắn */
@@ -58,55 +64,162 @@
   overflow-y: auto;
   background-color: #fff;
   display: flex;
-  flex-direction: column; /* Đảm bảo các tin nhắn hiển thị theo chiều dọc */
+  flex-direction: column;
+  position: relative; /* Thêm để hỗ trợ căn giữa */
+
+}
+/* Container chứa icon và ô hội thoại */
+.message-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
 }
 
-/* Tin nhắn của người dùng và chatbot */
+/* Icon đại diện */
+.icon-container {
+  font-size: 30px;
+  margin: 0 10px;
+}
+
+.user-icon {
+  order: 2;
+}
+
+.bot-icon {
+  order: 0;
+}
+
+/* Ô hội thoại */
 .message {
-  margin-bottom: 10px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  max-width: 80%;
-  word-wrap: break-word; /* Đảm bảo chữ không tràn ra ngoài */
-  display: inline-block; /* Để ô tin nhắn co giãn theo nội dung */
+  padding: 8px 20px;
+  border-radius: 25px;
+  max-width: 70%;
+  word-wrap: break-word;
+  font-size: 18px;
+  line-height: 1.9;
 }
 
 .message.user {
-  background-color: #007bff;
-  color: white;
+  background-color: #eac2f7;
+  color: rgb(0, 0, 0);
   margin-left: auto;
+  order: 1;
 }
 
 .message.bot {
   background-color: #e1e1e1;
   color: #333;
   margin-right: auto;
+  order: 1;
+}
+
+/* Hiệu ứng di chuyển lên xuống */
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Container chứa các dấu chấm */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Tăng khoảng cách giữa các dấu chấm */
+  padding: 8px 1px; /* Tăng padding để container to hơn */
+}
+
+/* Style cho từng dấu chấm */
+.typing-indicator .dot {
+  font-size: 8px; /* Kích thước của dấu chấm */
+  color: #333; /* Màu của dấu chấm */
+  animation: bounce 1.2s infinite; /* Áp dụng hiệu ứng bounce */
+}
+
+/* Delay cho từng dấu chấm để tạo hiệu ứng tuần tự */
+.typing-indicator .dot1 {
+  animation-delay: 0s;
+}
+.typing-indicator .dot2 {
+  animation-delay: 0.4s;
+}
+.typing-indicator .dot3 {
+  animation-delay: 0.8s;
 }
 
 /* Thanh nhập tin nhắn */
 .input-container {
   display: flex;
-  padding: 10px;
+  padding: 15px;
   background-color: #f1f1f1;
+}
+
+.input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 .input-container input {
   flex: 1;
-  padding: 8px;
+  padding: 12px 50px 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-family: "Times New Roman", serif;
+  width: 100%;
 }
 
+/* Button gửi tin nhắn */
 .input-container button {
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: white;
+  position: absolute;
+  right: 10px;
+  background-color: #640065;
   border: none;
-  border-radius: 5px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: opacity 0.3s ease;
 }
 
-.input-container button:hover {
-  background-color: #0056b3;
+/* Button khi bị disabled */
+.input-container button.disabled {
+  opacity: 0.3; /* Làm mờ button */
+  cursor: not-allowed; /* Hiển thị cursor "not-allowed" */
+}
+
+.input-container button:not(.disabled):hover {
+  background-color: #c000c7; /* Hiệu ứng hover khi button không bị disabled */
+}
+
+
+.welcome-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
+
+.welcome-message {
+  font-size: 18px;
+  color: #000000;
+  background-color: #ffffff;
+  padding: 20px 200px;
+  border-radius: 40px;
+  display: inline-block;
+  max-width: 80%;
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }

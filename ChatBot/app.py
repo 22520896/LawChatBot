@@ -25,7 +25,7 @@ class QueryRequest(BaseModel):
     query: str
 
 # Endpoint để khởi tạo lại chatbot
-@app.post("/newchat/")
+@app.get("/newchat/")
 async def new_chat():
     global chatbot
     chatbot = ChatBot()  # Khởi tạo lại chatbot mới
