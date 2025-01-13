@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
+import time
 
 
 class ChatBot:
@@ -54,9 +55,9 @@ class ChatBot:
 
         - Với `question_type = 0|3|5|7`: *Trả về ngữ cảnh y như nó được cung cấp, không thêm bớt bất kỳ thông tin nào khác.*
 
-        Mỗi câu hỏi đã được làm rõ (converted_query[i]) tương ứng với `context[i]` và `question_type[i]`. Trả lời lần lượt từng câu hỏi theo các quy tắc trên. **KHÔNG ĐƯỢC sử dụng các cụm từ tương tự như "Dựa vào thông tin được cung cấp", "Dựa vào ngữ cảnh", "không được nêu rõ trong ngữ cảnh".**
+        Mỗi câu hỏi đã được làm rõ (converted_query[i]) tương ứng với `context[i]` và `question_type[i]`. Trả lời lần lượt từng câu hỏi theo các quy tắc trên. **KHÔNG ĐƯỢC sử dụng các cụm từ tương tự như "Dựa vào thông tin được cung cấp", "Dựa vào ngữ cảnh", "không được nêu rõ trong ngữ cảnh", "trong văn bản được cung cấp".**
 
-        **Cách trình bày câu trả lời:** Tách các thông tin trả lời một cách rõ ràn, không nhắc lại câu hỏi
+        **Cách trình bày câu trả lời:** Tách các thông tin trả lời một cách rõ ràn, không nhắc lại câu hỏi.
 
         Dữ liệu cung cấp:
         - Loại câu hỏi: {question_type}
@@ -75,7 +76,7 @@ class ChatBot:
         # LLMChain kết hợp LLM và Prompt
         self.chain = LLMChain(llm=self.llm, prompt=self.prompt, memory=self.memory)
 
-    def process_query(self, raw_query):
+    def process_query_stream(self, raw_query):
         print ('QUERY GỐC: ', raw_query, '\n---------------------------------------------------------')
         # Bước 1: Biến đổi câu truy vấn dựa trên lịch sử
         converted_queries = self.query_transform.transform(raw_query, self.memory.load_memory_variables({})["history"])
@@ -91,4 +92,8 @@ class ChatBot:
         # Bước 4: Tạo câu trả lời bằng LangChain
         response = self.chain.run(question_type=query_types, context=context, query=raw_query, converted_query=converted_queries)
         print ('CÂU TRẢ LỜI: ', response, '\n___________________________________________________________')
-        return response
+        
+        # Trả về từng phần của câu trả lời
+        for chunk in response.split():  # Tách câu trả lời thành các từ hoặc cụm từ
+            yield chunk + " "  # Trả về từng phần với khoảng trắng
+            time.sleep(0.05)  # Thêm độ trễ để mô phỏng quá trình streaming

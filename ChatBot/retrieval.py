@@ -81,8 +81,7 @@ class Retriever:
             docs = [doc.page_content for doc in results]
             docs = self.rerank(query, docs)
             results = [results[i] for i in docs]
-        for r in results:
-            print (r)
+
         res = {}
         refers = set()
         for doc in results[:top_n]:

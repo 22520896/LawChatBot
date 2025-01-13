@@ -3,6 +3,9 @@ from pydantic import BaseModel
 from chatbot import ChatBot
 import warnings
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
+import time
 # Tắt các cảnh báo
 warnings.filterwarnings("ignore")
 
@@ -32,12 +35,15 @@ async def new_chat():
     return {"message": "ChatBot đã được khởi tạo lại."}
 
 # Endpoint để xử lý câu hỏi
-@app.post("/process_query/")
-async def process_query(request: QueryRequest):
+@app.post("/process_query_stream/")
+async def process_query_stream(request: QueryRequest):
     global chatbot
-    
-    raw_query = request.query  # Lấy query từ người dùng
-    # Xử lý truy vấn bằng chatbot
-    response = chatbot.process_query(raw_query)
-    # Trả về câu trả lời từ chatbot
-    return {"response": response}
+    try:
+        raw_query = request.query
+        # Sử dụng generator để trả về từng phần của câu trả lời
+        def generate():
+            for chunk in chatbot.process_query_stream(raw_query):
+                yield chunk
+        return StreamingResponse(generate(), media_type="text/plain")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

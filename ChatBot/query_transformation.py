@@ -13,8 +13,8 @@ class QueryTransform:
         4. NẾU CÂU HỎI chứa **SỐ ĐIỀU/SỐ CHƯƠNG cụ thể** và NẾU trong lịch sử trò chuyện gần nhất có chứa:
             + "Vui lòng chọn Điều cụ thể.", thì ý định của câu hỏi là: **Khoản <số Khoản trong lịch sử> Điều <SỐ/SỐ ĐIỀU trong câu hỏi>. Ngược lại ý định là: Điều <SỐ/SỐ ĐIỀU trong câu hỏi> **
             + "Vui lòng chọn Chương cụ thể", thì ý định của câu hỏi là: **Mục <số Mục trong lịch sử> Chương <SỐ/SỐ CHƯƠNG trong câu hỏi>. Ngược lại ý định là: Chương <SỐ/SỐ CHƯƠNG trong câu hỏi> **
-        5. **NẾU CÂU HỎI KHÔNG RÕ RÀNG HOẶC CHƯA ĐẦY ĐỦ**, hãy sử dụng lịch sử trò chuyện được cung cấp **CHỈ KHI LỊCH SỬ LIÊN QUAN TRỰC TIẾP ĐẾN CÂU HỎI** để làm rõ ý nghĩa và ngữ cảnh truy vấn của người dùng. **KHÔNG ĐƯỢC THÊM THÔNG TIN KHÔNG LIÊN QUAN VÀO CÂU HỎI**.
-        6. Suy ra nội dung chính của câu hỏi (hoặc câu khẳng định) thật đơn giản, rõ ràng và dễ hiểu (dùng các từ ngữ trong luật Hôn nhân và Gia đình nếu có thể), **BỎ QUA ĐẠI TỪ DANH XƯNG NẾU CÓ THỂ**. Ví dụ: Tôi là nữ 16 tuổi thì có lấy chồng được không? -> Nữ 16 tuổi có đủ điều kiện kết hôn không?, Người bị điên có lấy vợ được không? -> Người mất hành vi dân sự có được phép kết hôn không?
+        5. **NẾU CÂU HỎI KHÔNG RÕ RÀNG HOẶC CHƯA ĐẦY ĐỦ**, hãy sử dụng lịch sử trò chuyện được cung cấp **CHỈ KHI LỊCH SỬ LIÊN QUAN TRỰC TIẾP ĐẾN CÂU HỎI** để làm rõ ý nghĩa và ngữ cảnh truy vấn của người dùng. **KHÔNG ĐƯỢC THAY ĐỔI NỘI DUNG CHÍNH CỦA CÂU HỎI**.
+        6. Suy ra nội dung chính của câu hỏi (hoặc câu khẳng định) thật đơn giản, rõ ràng và dễ hiểu (dùng các từ ngữ trong luật Hôn nhân và Gia đình nếu có thể), **BỎ QUA ĐẠI TỪ DANH XƯNG NẾU CÓ THỂ**. Ví dụ: Tôi là nữ 16 tuổi thì có lấy chồng được không? -> Nữ 16 tuổi có đủ điều kiện kết hôn không?
 
         Chỉ cung cấp kết quả **theo định dạng sau** và không thêm bất kỳ văn bản, giải thích hoặc bình luận nào khác:
         Kết quả: <nội dung chính của câu hỏi 1>|<nội dung chính của câu hỏi 2>...
@@ -23,7 +23,7 @@ class QueryTransform:
         Câu hỏi gốc: {query}
         """)
 
-        self.model = ChatGoogleGenerativeAI(model=model, temperature=temperature, api_key= "AIzaSyAZ9e7fpVwT_Ao0c2q5IuvZIvuSpN-EXG0")
+        self.model = ChatGoogleGenerativeAI(model=model, temperature=temperature, api_key= "AIzaSyB7CqaOvl9gRIhD7ZD61MRKsS_vS5v5VUk")
         self.parser = StrOutputParser()
 
     def transform(self, raw_query, history):

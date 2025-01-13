@@ -49,8 +49,8 @@ vectorstore = QdrantVectorStore.from_documents(
                 embedding_model, 
                 sparse_embedding=sparse_embeddings,
                 retrieval_mode=RetrievalMode.HYBRID,
-                url=os.getenv("QDRANT_URL"), 
-                api_key=os.getenv("QDRANT_API_KEY"),
+                url="https://ee4decd4-2b54-4960-92f5-615ba47f3e04.us-east4-0.gcp.cloud.qdrant.io", 
+                api_key="JJ9wyq9OVLta3RODIM5_WX6v5CqpwMHhk-ednmmdrj44-8f_7m40ow",
                 collection_name="LAWDATA",
                 distance=models.Distance.COSINE
             )
