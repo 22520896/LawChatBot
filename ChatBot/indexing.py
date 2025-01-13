@@ -51,7 +51,7 @@ vectorstore = QdrantVectorStore.from_documents(
                 retrieval_mode=RetrievalMode.HYBRID,
                 url=os.getenv("QDRANT_URL"), 
                 api_key=os.getenv("QDRANT_API_KEY"),
-                collection_name="LAW",
+                collection_name="LAWDATA",
                 distance=models.Distance.COSINE
             )
 

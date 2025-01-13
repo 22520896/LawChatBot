@@ -14,7 +14,7 @@ class Router:
         # Route cho câu hỏi liên quan đến hôn nhân và gia đình
         marriage_and_family = Route(
             name="1",
-            score_thresold=0.64,
+            score_thresold=0.5,
             utterances=[
                 "quy định về kết hôn như thế nào?",
                 "ly hôn có cần sự đồng ý của cả hai không?",
@@ -27,15 +27,16 @@ class Router:
                 "kết hôn với người nước ngoài cần những giấy tờ gì?",
                 "tảo hôn là gì?",
                 "ông bà có quyền nuôi cháu sau khi cha mẹ ly hôn không?",
+                "Mang thai hộ có được phép không",
             ],
         )
 
         # Route cho smalltalk
         smalltalk = Route(
             name="2",
-            score_thresold=0.34,
+            score_thresold=0.3,
             utterances=[
-                "chào bạn!",
+                "đồng ý",
                 "hôm nay trời đẹp nhỉ?",
                 "bạn có thể giúp tôi không?",
                 "bạn tên là gì?",
@@ -51,30 +52,29 @@ class Router:
                 "Có gì vui không, kể cho tôi nghe với?",
                 "Giúp tôi tí được không?",
                 "Có kế hoạch gì hay không bạn?",
-                "Bạn có thể làm gì",
+                "Bạn có thể làm được gì?",
             ],
         )
 
-        # Route cho câu hỏi không liên quan
-        unrelated = Route(
-            name="3",
-            score_thresold=0.9,
-            utterances=[
-                "Những món ăn nào phổ biến nhất ở Ấn Độ?",
-                "Tại sao con người cần có mục tiêu?",
-                "Tự do cá nhân có quan trọng không?",
-                "Cách chăm sóc cây cảnh trong nhà?",
-                "AI có thể thay đổi cuộc sống của con người ra sao?",
-                "Blockchain là gì và nó hoạt động như thế nào?",
-                "Ai là cầu thủ ghi nhiều bàn thắng nhất mọi thời đại?",
-                "Tại sao Kim tự tháp được coi là kỳ quan?",
-                "Cuộc cách mạng công nghiệp diễn ra khi nào?",
-                "Ý nghĩa cuộc sống?",
-                "Nước là gì?",
-                "Con người có phải loài thông minh nhất?"
-            ],
-        )
-        return [marriage_and_family, smalltalk, unrelated]
+        # # Route cho câu hỏi không liên quan
+        # unrelated = Route(
+        #     name="3",
+        #     utterances=[
+        #         "Những món ăn nào phổ biến nhất ở Ấn Độ?",
+        #         "Tại sao con người cần có mục tiêu?",
+        #         "Tự do cá nhân có quan trọng không?",
+        #         "Cách chăm sóc cây cảnh trong nhà?",
+        #         "AI có thể thay đổi cuộc sống của con người ra sao?",
+        #         "Blockchain là gì và nó hoạt động như thế nào?",
+        #         "Ai là cầu thủ ghi nhiều bàn thắng nhất mọi thời đại?",
+        #         "Tại sao Kim tự tháp được coi là kỳ quan?",
+        #         "Cuộc cách mạng công nghiệp diễn ra khi nào?",
+        #         "Ý nghĩa cuộc sống?",
+        #         "Nước là gì?",
+        #         "Con người có phải loài thông minh nhất?"
+        #     ],
+        # )
+        return [marriage_and_family, smalltalk]#, unrelated]
 
     def route_query(self, query):
         """
@@ -86,12 +86,12 @@ class Router:
             return 0
 
         patterns = {
-            4: r"\bkhoản\s+\d+\b.*\bđiều\s+\d+\b",  # Có khoản và điều cụ thể
-            5: r"\bkhoản\s+\d+\b(?!.*\bđiều\b)",    # Chỉ có khoản cụ thể, không có điều
-            6: r"\bmục\s+\d+\b.*\bchương\s+([IVXLCDMivxlcdm]+|\d+)\b",  # Có mục và chương cụ thể (số La Mã hoặc số thường)
-            7: r"\bmục\s+\d+\b(?!.*\bchương\b)",    # Chỉ có mục cụ thể, không có chương
-            8: r"\bđiều\s+\d+\b",                   # Chỉ có điều cụ thể
-            9: r"\bchương\s+([IVXLCDMivxlcdm]+|\d+)\b"  # Chỉ có chương cụ thể (số La Mã hoặc số thường)
+            4: r"\b(?:khoản\s+\d+\b.*?\bđiều\s+\d+|điều\s+\d+\b.*?\bkhoản\s+\d+)\b",  # Có khoản và điều cụ thể
+            5: r"\bkhoản\s+\d+\b(?!.*\bđiều\s+\d+\b)",  # Chỉ có khoản không có điều
+            6: r"(?:\bmục\s+\d+\b.*\bchương\s+([IVXLCDMivxlcdm]+|\d+)\b|\bchương\s+([IVXLCDMivxlcdm]+|\d+)\b.*\bmục\s+\d+\b)",  # Có mục và chương cụ thể
+            7: r"\bmục\s+\d+\b(?!.*\bchương\s+([IVXLCDMivxlcdm]+|\d+)\b)",  # Chỉ có mục cụ thể, không có chương
+            8: r"\bđiều\s+\d+\b",  # Chỉ có điều cụ thể
+            9: r"\bchương\s+([IVXLCDMivxlcdm]+|\d+)\b"  # Chỉ có chương cụ thể
         }
 
         # Kiểm tra từng mẫu regex

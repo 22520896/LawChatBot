@@ -1,10 +1,17 @@
 import os
 from dotenv import load_dotenv
-from langchain_qdrant import  RetrievalMode
+from sentence_transformers import SentenceTransformer
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.vectorstores import Qdrant
+from langchain.schema import Document
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams
+from langchain_qdrant import FastEmbedSparse, RetrievalMode
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import models
 from langchain_qdrant import QdrantVectorStore, RetrievalMode
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from typing import List
 import torch
 from neo4j import GraphDatabase
 import re
@@ -14,7 +21,7 @@ class Retriever:
     def __init__(self, embedding_model, sparse_embedding, rerank_model="itdainb/PhoRanker"):
         # Tải các biến môi trường từ file .env
         load_dotenv()
-        collection_name = "LAW"
+        collection_name = "LAWDATA"
         url ="https://c1e67a53-62f6-4464-b5ed-086b3c298e23.europe-west3-0.gcp.cloud.qdrant.io"
         api_key = "-s29x9W2DpfpvmsR-1bA_CbpKrtp__xVJ2YKUmPgcf6n7MQ95o6fBQ"
         uri = "neo4j+s://615fc5a0.databases.neo4j.io"
@@ -74,7 +81,8 @@ class Retriever:
             docs = [doc.page_content for doc in results]
             docs = self.rerank(query, docs)
             results = [results[i] for i in docs]
-
+        for r in results:
+            print (r)
         res = {}
         refers = set()
         for doc in results[:top_n]:
@@ -84,7 +92,8 @@ class Retriever:
                     res[article] = {'title': doc.metadata['art_title'],
                                     'content': set([doc.page_content])}
                 else: res[article]['content'].add(doc.page_content)
-
+                if doc.metadata['refer']: refers.update(doc.metadata['refer'])
+            
             elif article not in res:
                 res[article] = {'title': doc.metadata['art_title']}
 
@@ -92,7 +101,7 @@ class Retriever:
                                                         key="metadata.article",  # Trường metadata cần lọc
                                                         match=models.MatchValue(value=article),
                                                     )])
-                temp = self.retriever.get_relevant_documents(query="", filter=filter_condition)
+                temp = self.retriever.get_relevant_documents(query="", k=100, filter=filter_condition)
                 res[article]['content'] = set([d.page_content for d in temp])
                 for art in temp:
                     if art.metadata['refer']: refers.update(art.metadata['refer'])
@@ -111,10 +120,10 @@ class Retriever:
               filter_condition2.must.append(models.FieldCondition(
                                                 key="metadata.clause",
                                                 match=models.MatchValue(value=f"Khoản {refer_clause}")))
-            temp2 = self.retriever.get_relevant_documents(query="", filter=filter_condition2)
+            temp2 = self.retriever.get_relevant_documents(query="", k=100, filter=filter_condition2)
             res[refer_article]['content'].update([d.page_content for d in temp2])
             res[refer_article]['title'] = temp2[0].metadata['art_title']
-        print ('res: ', res)
+
         context = ""
         for key, value in res.items():
             context += f"{key}: {value['title']}\n"
@@ -134,10 +143,9 @@ class Retriever:
 
     def muc_with_chuong(self, query):
         # Tìm mục và chương từ câu truy vấn
-        match = re.search(r"mục\s+(\d+).*chương\s+(\w+)", query, re.IGNORECASE)
-
-        section = int(match.group(1))
-        chapter = match.group(2).upper()
+        match = re.search(r"(mục\s+(\d+).*\bchương\s+(\w+)|chương\s+(\w+).*\bmục\s+(\d+))", query, re.IGNORECASE)
+        section = int(match.group(2)) if match.group(2) else int(match.group(5))
+        chapter = match.group(3).upper() if match.group(3) else match.group(4).upper()
 
         # Xử lý chương
         if chapter.isdigit():
@@ -181,8 +189,10 @@ class Retriever:
         return "Vui lòng chọn Điều cụ thể."
 
     def khoan_with_dieu(self, query): # Khoản có Điều
-        match = re.search(r"khoản\s+(\d+)\s+điều\s+(\d+)", query, re.IGNORECASE)
-        clause, article = match.group(1), match.group(2)
+        match = re.search(r"(khoản\s+(\d+).*\bđiều\s+(\d+)|điều\s+(\d+).*\bkhoản\s+(\d+))", query, re.IGNORECASE)
+        clause = match.group(2) if match.group(2) else match.group(5)
+        article = match.group(3) if match.group(3) else match.group(4)
+        
         if int(article) < 1 or int(article) > 133:
             return f'Luật Hôn nhân và Gia Đình Việt Nam không có Điều {article}'
 
