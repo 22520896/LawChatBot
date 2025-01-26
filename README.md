@@ -14,15 +14,14 @@ Google API: Hiểu và phân tích câu hỏi ngôn ngữ tự nhiên.
 Reactjs/FastAPI: Xây dựng giao diện API.
 🚀 Cách sử dụng
 1. Cài đặt yêu cầu
-Cài đặt các thư viện cần thiết bằng cách sử dụng pip:
-
+Cài đặt các thư viện cần thiết bằng cách sử dụng pip:  
 pip install -r requirements.txt
-2. Chạy ứng dụng
-Khởi động ứng dụng bằng lệnh:
-cd ChatBot
-uvicorn app:app --reload
-cd FrontEnd
-npm run dev 
-3. Tương tác với chatbot
-Truy cập giao diện web tại http://localhost:5173.
+2. Chạy ứng dụng  
+Khởi động ứng dụng bằng lệnh:  
+cd ChatBot  
+uvicorn app:app --reload  
+cd FrontEnd  
+npm run dev  
+3. Tương tác với chatbot  
+Truy cập giao diện web tại http://localhost:5173.  
 Nhập câu hỏi của bạn vào ô chat và nhận câu trả lời từ chatbot.
