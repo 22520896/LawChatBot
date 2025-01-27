@@ -1,38 +1,21 @@
-import os
-from dotenv import load_dotenv
-from sentence_transformers import SentenceTransformer
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import Qdrant
-from langchain.schema import Document
-from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams
-from langchain_qdrant import FastEmbedSparse, RetrievalMode
+from langchain_qdrant import RetrievalMode
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import models
 from langchain_qdrant import QdrantVectorStore, RetrievalMode
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-from typing import List
 import torch
 from neo4j import GraphDatabase
 import re
 import roman
-
+from config import QDRANT_COLLECTION_NAME, QDRANT_URL, QDRANT_API_KEY, NEO4J_URI, NEO4J_USERNAME, NEO4J_PASS
 class Retriever:
     def __init__(self, embedding_model, sparse_embedding, rerank_model="itdainb/PhoRanker"):
-        # Tải các biến môi trường từ file .env
-        load_dotenv()
-        collection_name = "LAWDATA"
-        url ="https://c1e67a53-62f6-4464-b5ed-086b3c298e23.europe-west3-0.gcp.cloud.qdrant.io"
-        api_key = "-s29x9W2DpfpvmsR-1bA_CbpKrtp__xVJ2YKUmPgcf6n7MQ95o6fBQ"
-        uri = "neo4j+s://615fc5a0.databases.neo4j.io"
-        auth = ("neo4j", "na-qdn-vkgFz_gxp3wchu_w-KLVafhGNebbm1X20An0")
-
         # Khởi tạo kho lưu trữ vector
         self.vector_store = QdrantVectorStore.from_existing_collection(
             embedding=embedding_model,
-            collection_name=collection_name,
-            url=url,
-            api_key=api_key,
+            collection_name=QDRANT_COLLECTION_NAME,
+            url=QDRANT_URL,
+            api_key=QDRANT_API_KEY,
             sparse_embedding=sparse_embedding,
             retrieval_mode=RetrievalMode.HYBRID,
         )
@@ -40,7 +23,7 @@ class Retriever:
         self.retriever = self.vector_store.as_retriever()
         self.tokenizer = AutoTokenizer.from_pretrained(rerank_model)
         self.rerank_model = AutoModelForSequenceClassification.from_pretrained(rerank_model)
-        self.driver = GraphDatabase.driver(uri, auth=auth)
+        self.driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USERNAME,NEO4J_PASS))
 
         self.methods = {
             0: self.unknown,                # Ngôn ngữ khác

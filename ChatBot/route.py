@@ -56,25 +56,7 @@ class Router:
             ],
         )
 
-        # # Route cho câu hỏi không liên quan
-        # unrelated = Route(
-        #     name="3",
-        #     utterances=[
-        #         "Những món ăn nào phổ biến nhất ở Ấn Độ?",
-        #         "Tại sao con người cần có mục tiêu?",
-        #         "Tự do cá nhân có quan trọng không?",
-        #         "Cách chăm sóc cây cảnh trong nhà?",
-        #         "AI có thể thay đổi cuộc sống của con người ra sao?",
-        #         "Blockchain là gì và nó hoạt động như thế nào?",
-        #         "Ai là cầu thủ ghi nhiều bàn thắng nhất mọi thời đại?",
-        #         "Tại sao Kim tự tháp được coi là kỳ quan?",
-        #         "Cuộc cách mạng công nghiệp diễn ra khi nào?",
-        #         "Ý nghĩa cuộc sống?",
-        #         "Nước là gì?",
-        #         "Con người có phải loài thông minh nhất?"
-        #     ],
-        # )
-        return [marriage_and_family, smalltalk]#, unrelated]
+        return [marriage_and_family, smalltalk]
 
     def route_query(self, query):
         """

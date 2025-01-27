@@ -3,26 +3,22 @@ from langchain.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_qdrant import FastEmbedSparse
-from query_transformation import QueryTransform
+from query_transformation import QueryTransformer
 from route import Router
 from retrieval import Retriever
-import os
-from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
 import time
-
+from config import GOOGLE_API_KEY
 
 class ChatBot:
     def __init__(self, embedding_model='bkai-foundation-models/vietnamese-bi-encoder', sparse_embedding="Qdrant/BM25"):
         self.embedding_model = HuggingFaceEmbeddings(model_name=embedding_model)
         self.sparse_embedding = FastEmbedSparse(model_name=sparse_embedding)
 
-        genai_api_key = "AIzaSyAZ9e7fpVwT_Ao0c2q5IuvZIvuSpN-EXG0"
-
-        print ("Khởi tạo Query Transform")
-        self.query_transform = QueryTransform()
+        print ("Khởi tạo Query Transformer")
+        self.query_transform = QueryTransformer()
 
         print ("Khởi tạo Router")
         self.router = Router()
@@ -31,7 +27,7 @@ class ChatBot:
         self.retriever = Retriever(self.embedding_model, self.sparse_embedding)
 
         print ("Khởi tạo LLM")
-        self.llm = ChatGoogleGenerativeAI(api_key=genai_api_key, model="gemini-1.5-flash")
+        self.llm = ChatGoogleGenerativeAI(api_key=GOOGLE_API_KEY, model="gemini-1.5-flash")
 
         # Sử dụng ConversationBufferMemory để lưu trữ lịch sử hội thoại
         self.memory = ConversationBufferWindowMemory(
@@ -57,7 +53,7 @@ class ChatBot:
 
         Mỗi câu hỏi đã được làm rõ (converted_query[i]) tương ứng với `context[i]` và `question_type[i]`. Trả lời lần lượt từng câu hỏi theo các quy tắc trên. **KHÔNG ĐƯỢC sử dụng các cụm từ tương tự như "Dựa vào thông tin được cung cấp", "Dựa vào ngữ cảnh", "không được nêu rõ trong ngữ cảnh", "trong văn bản được cung cấp".**
 
-        **Cách trình bày câu trả lời:** Tách các thông tin trả lời một cách rõ ràn, không nhắc lại câu hỏi.
+        **Cách trình bày câu trả lời:** Tách các thông tin trả lời một cách rõ ràng, không nhắc lại câu hỏi.
 
         Dữ liệu cung cấp:
         - Loại câu hỏi: {question_type}

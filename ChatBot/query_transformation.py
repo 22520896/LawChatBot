@@ -1,8 +1,9 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from config import GOOGLE_API_KEY
 
-class QueryTransform:
+class QueryTransformer:
     def __init__(self, model="gemini-1.5-flash", temperature=0.3):
         # Prompt
         self.transform_prompt = ChatPromptTemplate.from_template("""
@@ -23,7 +24,7 @@ class QueryTransform:
         Câu hỏi gốc: {query}
         """)
 
-        self.model = ChatGoogleGenerativeAI(model=model, temperature=temperature, api_key= "AIzaSyB7CqaOvl9gRIhD7ZD61MRKsS_vS5v5VUk")
+        self.model = ChatGoogleGenerativeAI(model=model, temperature=temperature, api_key=GOOGLE_API_KEY)
         self.parser = StrOutputParser()
 
     def transform(self, raw_query, history):

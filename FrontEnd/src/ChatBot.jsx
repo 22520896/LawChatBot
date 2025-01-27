@@ -107,7 +107,7 @@ const ChatBot = () => {
   // Định dạng câu trả lời của bot (in đậm các phần quan trọng)
   const formatBotResponse = (text) => {
     return text.split("\n").map((line, index) => (
-      <p key={index}>
+      <p key={index} style={{ whiteSpace: "pre-wrap", margin: "0 0 1em 0" }}>
         {line.split("**").map((part, i) => {
           if (i % 2 === 1) {
             return (
@@ -156,6 +156,7 @@ const ChatBot = () => {
             )}
             <div
               className={`message ${message.sender} ${message.text === "..." ? "typing" : ""}`}
+              style={{ whiteSpace: "pre-wrap" }} // Thêm style này để giữ nguyên xuống dòng
             >
               {message.sender === "bot" && message.text === "..." ? (
                 <div className="typing-indicator">
@@ -166,7 +167,7 @@ const ChatBot = () => {
               ) : message.sender === "bot" ? (
                 formatBotResponse(message.text)
               ) : (
-                <p>{message.text}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>{message.text}</p> // Thêm style này cho tin nhắn người dùng
               )}
             </div>
             {message.sender === "bot" && (
