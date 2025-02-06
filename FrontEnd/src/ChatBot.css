@@ -72,7 +72,7 @@
 .message-container {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 /* Icon đại diện */
@@ -95,7 +95,7 @@
   border-radius: 25px;
   max-width: 70%;
   word-wrap: break-word;
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.9;
 }
 
@@ -166,15 +166,6 @@
   align-items: center;
 }
 
-.input-container input {
-  flex: 1;
-  padding: 12px 50px 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  font-size: 18px;
-  font-family: "Times New Roman", serif;
-  width: 100%;
-}
 
 /* Button gửi tin nhắn */
 .input-container button {
@@ -225,4 +216,24 @@
 }
 .message {
   white-space: pre-wrap !important; /* Đảm bảo xuống dòng được giữ nguyên */
+}
+
+.chat-input {
+  width: 100%;
+  min-height: 80px;
+  max-height: 200px;
+  resize: none;
+  padding: 12px;
+  border: 1px solid #aaa;
+  border-radius: 12px;
+  font-size: 18px;
+  font-family: "Times New Roman", serif;
+  line-height: 1.6;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.chat-input::placeholder {
+  font-family: "Times New Roman", serif;
+  color: #999;
 }

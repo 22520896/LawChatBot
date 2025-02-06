@@ -53,7 +53,7 @@ class ChatBot:
 
         Mỗi câu hỏi đã được làm rõ (converted_query[i]) tương ứng với `context[i]` và `question_type[i]`. Trả lời lần lượt từng câu hỏi theo các quy tắc trên. **KHÔNG ĐƯỢC sử dụng các cụm từ tương tự như "Dựa vào thông tin được cung cấp", "Dựa vào ngữ cảnh", "không được nêu rõ trong ngữ cảnh", "trong văn bản được cung cấp".**
 
-        **Cách trình bày câu trả lời:** Tách các thông tin trả lời một cách rõ ràng, không nhắc lại câu hỏi.
+        **Cách trình bày câu trả lời:** Tách các thông tin trả lời một cách rõ ràng, in đậm một số từ quan trọng, không nhắc lại câu hỏi.
 
         Dữ liệu cung cấp:
         - Loại câu hỏi: {question_type}
@@ -89,7 +89,14 @@ class ChatBot:
         response = self.chain.run(question_type=query_types, context=context, query=raw_query, converted_query=converted_queries)
         print ('CÂU TRẢ LỜI: ', response, '\n___________________________________________________________')
         
-        # Trả về từng phần của câu trả lời
-        for chunk in response.split():  # Tách câu trả lời thành các từ hoặc cụm từ
+        formatted_response = response.strip().replace("\n", "\\n")  # Đảm bảo xuống dòng được giữ nguyên
+        formatted_response = formatted_response.replace("**", "**")  # Giữ nguyên định dạng in đậm
+        
+        for chunk in formatted_response.split():  # Tách câu trả lời thành các từ hoặc cụm từ
             yield chunk + " "  # Trả về từng phần với khoảng trắng
             time.sleep(0.05)  # Thêm độ trễ để mô phỏng quá trình streaming
+
+        # # Trả về từng phần của câu trả lời
+        # for chunk in response.split():  # Tách câu trả lời thành các từ hoặc cụm từ
+        #     yield chunk + " "  # Trả về từng phần với khoảng trắng
+        #     time.sleep(0.05)  # Thêm độ trễ để mô phỏng quá trình streaming

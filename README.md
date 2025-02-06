@@ -1,59 +1,60 @@
-# Chatbot Hỏi Đáp Về Luật Hôn Nhân và Gia Đình Việt Nam
+# 🤖 Q&A ChatBot on Vietnamese Marriage and Family Law
+![ChatBot](assets/ChatBot.png)
 
-## Giới Thiệu
+## 📖 Introduction
 
-Hệ thống **Chatbot Hỏi Đáp về Luật Hôn Nhân và Gia Đình Việt Nam** là một công cụ hỗ trợ người dùng tìm kiếm thông tin về các quy định pháp luật liên quan đến hôn nhân và gia đình tại Việt Nam. Chatbot sử dụng các công nghệ AI hiện đại như **Avanced Retrieval-Augmented Generation (RAG)**, **vector database** và **graph database** để cung cấp câu trả lời chi tiết, dựa trên dữ liệu pháp luật.
+The **Q&A ChatBot on Vietnamese Marriage and Family Law** is a tool designed to assist users in finding information about legal regulations related to marriage and family in Vietnam. The ChatBot utilizes modern AI technologies such as **Advanced Retrieval-Augmented Generation (RAG)**, **vector database**, and **graph database** to provide detailed answers based on legal data.
 
-## Tính Năng Chính
+## 🛠️ Key Features
 
-- **Trả lời câu hỏi về Luật Hôn Nhân và Gia Đình**: Chatbot có khả năng trả lời các câu hỏi liên quan đến luật Hôn nhân và Gia đình Việt Nam một cách nhanh chóng và chính xác.
+- **Answer Questions on Marriage and Family Law**: The ChatBot can quickly and accurately answer questions related to Vietnamese Marriage and Family Law.
   
-- **Hiển thị điều luật cụ thể**: Thay vì phải tìm kiếm trong toàn bộ văn bản pháp luật dài dòng, người dùng chỉ cần đặt câu hỏi và chatbot sẽ truy xuất chính xác điều luật phù hợp.
+- **Display Specific Legal Provisions**: Instead of searching through lengthy legal documents, users can simply ask questions, and the ChatBot will retrieve the relevant legal provisions.
 
-- **Tích hợp trò chuyện xã giao**: Chatbot có khả năng trò chuyện thân thiện, giúp người dùng cảm thấy thoải mái khi tìm hiểu về pháp luật.
+- **Integrated Friendly Chat**: The ChatBot is capable of friendly conversation, making users feel comfortable while learning about the law.
 
-## Kiến Trúc
-![Kiến Trúc Hệ Thống](assets/architecture.png)
+## 🏗️ Architecture
+![System Architecture](assets/architecture.png)
 
-### Frontend
-- **Công nghệ**: Sử dụng **ReactJS** để xây dựng giao diện người dùng.
-- **Chức năng**: Hỗ trợ chatbot giao tiếp bằng ngôn ngữ tự nhiên.
+### 🖥️ Frontend
+- **Technology**: Built using **ReactJS** for the user interface.
+- **Functionality**: Supports natural language communication with the ChatBot.
 
-### Backend
-- **Công nghệ**: Sử dụng **FastAPI** để xây dựng API và xử lý logic nghiệp vụ.
-- **Advanced RAG**: Tích hợp để tìm kiếm thông tin nhanh và cung cấp câu trả lời dựa trên ngữ cảnh.
+### ⚙️ Backend
+- **Technology**: Built using **FastAPI** for API and business logic processing.
+- **Advanced RAG**: Integrated for quick information retrieval and context-based answers.
 - **Database**:
-  - **Qdrant**: Vector database để lưu trữ và tìm kiếm embedded vector của văn bản.
-  - **Neo4j**: Graph database để quản lý các mối quan hệ giữa các điều luật.
+  - **Qdrant**: Vector database for storing and searching embedded text vectors.
+  - **Neo4j**: Graph database for managing relationships between legal provisions.
 
-### Dữ Liệu
-- **Luật Hôn nhân và Gia đình Việt Nam 2014 (Văn bản 52/2014/QH13)**, được đăng tải trên trang Chính phủ.
+### 📂 Data
+- **Vietnamese Marriage and Family Law 2014 (Document 52/2014/QH13)**, published on the Government's website.
 
-## Cài Đặt
+## 🔧 Installation
 
-### Yêu Cầu Hệ Thống
-- Python (v3.8 trở lên)
-- Node.js (v18 trở lên)
+### 📋 System Requirements
+- Python (v3.8 or higher)
+- Node.js (v18 or higher)
 
-### Các Bước Cài Đặt
+### 📝 Installation Steps
 
-1. Clone repository:
+1. Clone the repository:
 ```sh
 git clone https://github.com/22520896/LawChatBot.git
 ```
 
-2. Cài đặt các thư viện:
+2. Install the required libraries:
 ```sh
 pip requirement.txt
 ```
 
-3. Tạo một cluster trên [Qdrant Cloud](https://cloud.qdrant.io/) và lấy thông tin kết nối (URL và API Key).
+3. Create a cluster on [Qdrant Cloud](https://cloud.qdrant.io/) and obtain the connection details (URL and API Key).
 
-4. Tạo một instance trên [Neo4j Aura](https://neo4j.com/cloud/aura/) hoặc cài đặt Neo4j Desktop, sau đó lấy thông tin kết nối (URI, username, password).
+4. Create an instance on [Neo4j Aura] (https://neo4j.com/cloud/aura/), then obtain the connection details (URI, username, password).
 
-5. Tạo **Google API Key** từ [Google AI Studio](https://aistudio.google.com/apikey)
+5. Create a **Google API Key** from [Google AI Studio](https://aistudio.google.com/apikey).
 
-6. Tạo một file .env trong thư mục gốc của dự án và thêm các biến môi trường sau:
+6. Create a .env file in the project's root directory and add the following environment variables:
 ```sh
 # Google API
 GOOGLE_API_KEY=
@@ -69,34 +70,35 @@ NEO4J_USERNAME=
 NEO4J_URI=
 ```   
 
-7. Lưu dữ liệu vào Qdrant:
+7. Save data to Qdrant:
 ```sh
 python data/save_to_vectordb.py
 ```
 
-8. Lưu dữ liệu vào Neo4j:
+8. Save data to Neo4j:
 ```sh
 python data/save_to_graphdb.py
 ```
 
-9. Cài đặt FrontEnd
+9. Install FrontEnd:
 ```sh
 cd FrontEnd
 npm install
 ```
 
-### Cách sử dụng
-1. Khởi chạy BackEnd:
+### 🚀 Usage
+1. Start the BackEnd:
 ```sh
 cd BackEnd
 uvicorn app:app
 ```
 
-2. Khởi chạy FrontEnd
+2. Start the FrontEnd
 ```sh
 cd FrontEnd
 npm rundev
 ```
-3. Truy cập giao diện web tại: http://localhost:3000.
 
-4. Nhập câu hỏi và nhận câu trả lời từ chatbot.
+3. Access the web interface at: http://localhost:5173.
+
+4. Enter your questions and receive answers from the ChatBot.

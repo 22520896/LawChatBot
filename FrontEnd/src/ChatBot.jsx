@@ -106,8 +106,8 @@ const ChatBot = () => {
 
   // Định dạng câu trả lời của bot (in đậm các phần quan trọng)
   const formatBotResponse = (text) => {
-    return text.split("\n").map((line, index) => (
-      <p key={index} style={{ whiteSpace: "pre-wrap", margin: "0 0 1em 0" }}>
+    return text.split("\\n").map((line, index) => (
+      <p key={index}>
         {line.split("**").map((part, i) => {
           if (i % 2 === 1) {
             return (
@@ -121,6 +121,22 @@ const ChatBot = () => {
       </p>
     ));
   };
+  // const formatBotResponse = (text) => {
+  //   return text.split("\n").map((line, index) => (
+  //     <p key={index} style={{ whiteSpace: "pre-wrap", margin: "0 0 1em 0" }}>
+  //       {line.split("**").map((part, i) => {
+  //         if (i % 2 === 1) {
+  //           return (
+  //             <span key={i} style={{ fontWeight: "bold" }}>
+  //               {part}
+  //             </span>
+  //           );
+  //         }
+  //         return <span key={i}>{part}</span>;
+  //       })}
+  //     </p>
+  //   ));
+  // };
 
   return (
     <div className="chatbot-container">
@@ -181,17 +197,19 @@ const ChatBot = () => {
 
       <div className="input-container">
         <div className="input-wrapper">
-          <input
-            type="text"
+          <textarea
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             placeholder="Nhập câu hỏi..."
-            onKeyPress={(e) => {
-              if (e.key === "Enter" && !isLoading) {
+            rows={1}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey && !isLoading) {
+                e.preventDefault(); // Ngăn việc xuống dòng khi nhấn Enter thông thường
                 handleSend();
               }
             }}
-          />
+            className="chat-input"
+          ></textarea>
           <button
             onClick={handleSend}
             disabled={userInput.trim() === "" || isLoading} // Vô hiệu hóa nút gửi khi đang tải
