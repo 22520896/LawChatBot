@@ -1,5 +1,7 @@
-# 🤖 Q&A ChatBot on Vietnamese Marriage and Family Law
-![ChatBot](assets/ChatBot.png)
+<h1 style="text-align: center;">🤖 Q&A ChatBot on Vietnamese Marriage and Family Law</h1>
+<div align="center">
+  <img src="assets/ChatBot.png" alt="ChatBot" />
+</div>
 
 ## 📖 Introduction
 
@@ -14,7 +16,9 @@ The **Q&A ChatBot on Vietnamese Marriage and Family Law** is a tool designed to 
 - **Integrated Friendly Chat**: The ChatBot is capable of friendly conversation, making users feel comfortable while learning about the law.
 
 ## 🏗️ Architecture
-![System Architecture](assets/architecture.png)
+<div align="center">
+  <img src="assets/architecture.png" alt="System Architecture" />
+</div>
 
 ### 🖥️ Frontend
 - **Technology**: Built using **ReactJS** for the user interface.
